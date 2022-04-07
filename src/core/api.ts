@@ -10,12 +10,12 @@ export class Api {
   }
 
   getRequest<AjaxResponse>(cb: (data: AjaxResponse) => void): void {
-    this.ajax.open('GET', this.url);
-    this.ajax.addEventListener('load', () => {
-      cb(JSON.parse(this.ajax.response) as AjaxResponse);
-    });
-
-    this.ajax.send();
+    fetch(this.url)
+      .then(response => response.json())
+      .then(cb)
+      .catch(() => {
+        console.error('데이터를 불러오지 못했습니다.');
+      })
   }
 }
 
